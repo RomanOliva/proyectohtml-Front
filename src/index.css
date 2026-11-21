@@ -189,3 +189,5 @@ body {
 }
 
 .admin-thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; }
+
+.admin-form { max-width: 560px; }
