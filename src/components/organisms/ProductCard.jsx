@@ -8,7 +8,7 @@ function ProductCard({ producto, onAdd }) {
     <Card className="item h-100">
       <Image src={producto.imagen} alt={producto.nombre} className="card-img-top" />
       <Card.Body className="d-flex flex-column">
-        <CardBody title={producto.nombre} price={producto.precio} />
+        <CardBody title={producto.nombre} price={producto.precio} description={producto.descripcion} />
         <Button variant="info" className="mt-auto" onClick={() => onAdd(producto)}>
           Agregar al carrito
         </Button>

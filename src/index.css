@@ -187,3 +187,7 @@ body {
   .cart-item__cantidad, .cart-item__subtotal { justify-self: start; }
   .cart-total { text-align: center; }
 }
+
+.admin-thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; }
+
+.admin-form { max-width: 560px; }
