@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import Productos from './pages/Productos'
 import Registro from './pages/Registro'
+import Admin from './pages/Admin'
 import { agregarAlCarrito, contarItems, quitarDelCarrito } from './utils/carrito'
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
