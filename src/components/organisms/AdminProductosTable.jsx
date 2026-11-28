@@ -21,7 +21,9 @@ function AdminProductosTable({ productos, onEdit, onDelete }) {
             <th>Imagen</th>
             <th>Nombre</th>
             <th>Descripción</th>
+            <th>Categoría</th>
             <th>Precio</th>
+            <th>Stock</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -34,7 +36,9 @@ function AdminProductosTable({ productos, onEdit, onDelete }) {
               </td>
               <td>{p.nombre}</td>
               <td>{p.descripcion}</td>
+              <td>{p.categoria?.nombre}</td>
               <td>{p.precio} Platinum</td>
+              <td>{p.stock}</td>
               <td className="text-nowrap">
                 <Button size="sm" variant="outline-info" className="me-2" onClick={() => onEdit(p)}>
                   Editar

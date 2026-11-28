@@ -7,6 +7,7 @@ import AdminProductoForm from '../components/organisms/AdminProductoForm'
 import AdminProductosTable from '../components/organisms/AdminProductosTable'
 import { ordenes } from '../data/ordenes'
 import { productos as productosIniciales } from '../data/productos'
+import { categorias } from '../data/categorias'
 
 export default function Admin() {
   const [seccion, setSeccion] = useState('productos')
@@ -30,14 +31,17 @@ export default function Admin() {
     setMostrarForm(false)
   }
 
-  const guardar = (datos) => {
+    const guardar = (datos) => {
+    const categoria = categorias.find((c) => c.id === datos.categoriaId)
+    const producto = { ...datos, categoria }
+
     if (editando) {
       setProductos((lista) =>
-        lista.map((p) => (p.id === editando.id ? { ...p, ...datos } : p))
+        lista.map((p) => (p.id === editando.id ? { ...p, ...producto } : p))
       )
     } else {
       const nuevoId = productos.reduce((max, p) => Math.max(max, p.id), 0) + 1
-      setProductos((lista) => [...lista, { id: nuevoId, ...datos }])
+      setProductos((lista) => [...lista, { id: nuevoId, ...producto }])
     }
     cerrarForm()
   }
@@ -76,6 +80,7 @@ export default function Admin() {
             <AdminProductoForm
               key={editando ? editando.id : 'nuevo'}
               producto={editando}
+              categorias={categorias}
               onSave={guardar}
               onCancel={cerrarForm}
             />
