@@ -1,14 +1,19 @@
 import { useState } from 'react'
 import { Container } from 'react-bootstrap'
 import Button from '../components/atoms/Button'
+import AdminOrdenDetalle from '../components/organisms/AdminOrdenDetalle'
+import AdminOrdenesTable from '../components/organisms/AdminOrdenesTable'
 import AdminProductoForm from '../components/organisms/AdminProductoForm'
 import AdminProductosTable from '../components/organisms/AdminProductosTable'
+import { ordenes } from '../data/ordenes'
 import { productos as productosIniciales } from '../data/productos'
 
 export default function Admin() {
+  const [seccion, setSeccion] = useState('productos')
   const [productos, setProductos] = useState(productosIniciales)
   const [mostrarForm, setMostrarForm] = useState(false)
   const [editando, setEditando] = useState(null)
+  const [ordenSeleccionada, setOrdenSeleccionada] = useState(null)
 
   const abrirNuevo = () => {
     setEditando(null)
@@ -45,21 +50,49 @@ export default function Admin() {
     <Container>
       <h1 className="parodia">Panel de Administración</h1>
 
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2 className="h4 text-white mb-0">Productos</h2>
-        <Button variant="info" onClick={abrirNuevo}>Nuevo producto</Button>
+      <div className="d-flex gap-2 mb-4">
+        <Button
+          variant={seccion === 'productos' ? 'info' : 'outline-info'}
+          onClick={() => setSeccion('productos')}
+        >
+          Productos
+        </Button>
+        <Button
+          variant={seccion === 'ordenes' ? 'info' : 'outline-info'}
+          onClick={() => setSeccion('ordenes')}
+        >
+          Órdenes
+        </Button>
       </div>
 
-      {mostrarForm && (
-        <AdminProductoForm
-          key={editando ? editando.id : 'nuevo'}
-          producto={editando}
-          onSave={guardar}
-          onCancel={cerrarForm}
-        />
+      {seccion === 'productos' && (
+        <>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h2 className="h4 text-white mb-0">Productos</h2>
+            <Button variant="info" onClick={abrirNuevo}>Nuevo producto</Button>
+          </div>
+
+          {mostrarForm && (
+            <AdminProductoForm
+              key={editando ? editando.id : 'nuevo'}
+              producto={editando}
+              onSave={guardar}
+              onCancel={cerrarForm}
+            />
+          )}
+
+          <AdminProductosTable productos={productos} onEdit={abrirEditar} onDelete={eliminar} />
+        </>
       )}
 
-      <AdminProductosTable productos={productos} onEdit={abrirEditar} onDelete={eliminar} />
+      {seccion === 'ordenes' && (
+        <>
+          <h2 className="h4 text-white mb-3">Órdenes</h2>
+          <AdminOrdenesTable ordenes={ordenes} onView={setOrdenSeleccionada} />
+        </>
+      )}
+
+      <AdminOrdenDetalle orden={ordenSeleccionada} onClose={() => setOrdenSeleccionada(null)} />
     </Container>
   )
 }
