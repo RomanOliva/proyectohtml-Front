@@ -6,6 +6,7 @@ import AdminOrdenDetalle from '../components/organisms/AdminOrdenDetalle'
 import AdminOrdenesTable from '../components/organisms/AdminOrdenesTable'
 import AdminProductoForm from '../components/organisms/AdminProductoForm'
 import AdminProductosTable from '../components/organisms/AdminProductosTable'
+import { useAuth } from '../context/authContext'
 import { listarCategorias } from '../services/categoriasService'
 import { listarOrdenes } from '../services/ordenesService'
 import {
@@ -16,6 +17,9 @@ import {
 } from '../services/productosService'
 
 export default function Admin() {
+  const { tieneRol } = useAuth()
+  const puedeEditar = tieneRol('ADMIN')
+
   const [seccion, setSeccion] = useState('productos')
   const [productos, setProductos] = useState([])
   const [categorias, setCategorias] = useState([])
@@ -120,10 +124,12 @@ export default function Admin() {
         <>
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h2 className="h4 text-white mb-0">Productos</h2>
-            <Button variant="info" onClick={abrirNuevo}>Nuevo producto</Button>
+            {puedeEditar && (
+              <Button variant="info" onClick={abrirNuevo}>Nuevo producto</Button>
+            )}
           </div>
 
-          {mostrarForm && (
+          {mostrarForm && puedeEditar && (
             <AdminProductoForm
               key={editando ? editando.id : 'nuevo'}
               producto={editando}
@@ -133,7 +139,12 @@ export default function Admin() {
             />
           )}
 
-          <AdminProductosTable productos={productos} onEdit={abrirEditar} onDelete={eliminar} />
+          <AdminProductosTable
+            productos={productos}
+            onEdit={abrirEditar}
+            onDelete={eliminar}
+            soloLectura={!puedeEditar}
+          />
         </>
       )}
 

@@ -3,7 +3,7 @@ import Button from '../atoms/Button'
 import Image from '../atoms/Image'
 import Text from '../atoms/Text'
 
-function AdminProductosTable({ productos, onEdit, onDelete }) {
+function AdminProductosTable({ productos, onEdit, onDelete, soloLectura = false }) {
   if (productos.length === 0) {
     return (
       <div className="panel-dark text-center">
@@ -24,7 +24,7 @@ function AdminProductosTable({ productos, onEdit, onDelete }) {
             <th>Categoría</th>
             <th>Precio</th>
             <th>Stock</th>
-            <th>Acciones</th>
+            {!soloLectura && <th>Acciones</th>}
           </tr>
         </thead>
         <tbody>
@@ -39,14 +39,16 @@ function AdminProductosTable({ productos, onEdit, onDelete }) {
               <td>{p.categoria?.nombre}</td>
               <td>{p.precio} Platinum</td>
               <td>{p.stock}</td>
-              <td className="text-nowrap">
-                <Button size="sm" variant="outline-info" className="me-2" onClick={() => onEdit(p)}>
-                  Editar
-                </Button>
-                <Button size="sm" variant="outline-danger" onClick={() => onDelete(p.id)}>
-                  Eliminar
-                </Button>
-              </td>
+              {!soloLectura && (
+                <td className="text-nowrap">
+                  <Button size="sm" variant="outline-info" className="me-2" onClick={() => onEdit(p)}>
+                    Editar
+                  </Button>
+                  <Button size="sm" variant="outline-danger" onClick={() => onDelete(p.id)}>
+                    Eliminar
+                  </Button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

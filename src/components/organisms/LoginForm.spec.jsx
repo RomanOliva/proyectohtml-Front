@@ -10,7 +10,7 @@ describe('Organism: LoginForm', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Ingresar' }))
 
-    expect(await screen.findByText('Debes ingresar tu usuario.')).toBeTruthy()
+    expect(await screen.findByText('Debes ingresar tu correo.')).toBeTruthy()
     expect(screen.getByText('Debes ingresar tu contraseña.')).toBeTruthy()
     expect(onLogin).not.toHaveBeenCalled()
   })
