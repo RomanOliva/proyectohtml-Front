@@ -8,12 +8,19 @@ import FormField from '../molecules/FormField'
 
 function RegisterForm({ onRegister }) {
   const [exito, setExito] = useState(false)
+  const [errorServidor, setErrorServidor] = useState('')
   const { register, handleSubmit, getValues, reset, formState: { errors } } = useForm()
 
-  const enviar = (datos) => {
-    if (onRegister) onRegister(datos)
-    setExito(true)
-    reset()
+  const enviar = async (datos) => {
+    setErrorServidor('')
+    try {
+      if (onRegister) await onRegister(datos)
+      setExito(true)
+      reset()
+    } catch (e) {
+      setExito(false)
+      setErrorServidor(e.message)
+    }
   }
 
   return (
@@ -63,6 +70,7 @@ function RegisterForm({ onRegister }) {
       />
 
       {exito && <Alert variant="success">¡Cuenta creada con éxito! Ya puedes iniciar sesión.</Alert>}
+      {errorServidor && <Alert variant="danger">{errorServidor}</Alert>}
 
       <Button type="submit" variant="info" className="w-100">Registrarse</Button>
 

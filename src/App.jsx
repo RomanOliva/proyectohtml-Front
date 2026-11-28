@@ -11,6 +11,8 @@ import Productos from './pages/Productos'
 import Registro from './pages/Registro'
 import Admin from './pages/Admin'
 import { agregarAlCarrito, contarItems, quitarDelCarrito } from './utils/carrito'
+import AccesoDenegado from './pages/AccesoDenegado'
+import RutaProtegida from './routes/RutaProtegida'
 
 export default function App() {
   const [carrito, setCarrito] = useState([])
@@ -29,7 +31,10 @@ export default function App() {
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route element={<RutaProtegida roles={['ADMIN', 'VENDEDOR']} />}>
+            <Route path="/admin" element={<Admin />} />
+          </Route>
+          <Route path="/acceso-denegado" element={<AccesoDenegado />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
